@@ -1,4 +1,5 @@
 import type { V2_MetaFunction } from "@remix-run/node";
+import Hotjar from "@hotjar/browser";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -8,6 +9,10 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Index() {
+  const siteId = 3607907;
+  const hotjarVersion = 6;
+
+  Hotjar.init(siteId, hotjarVersion);
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
