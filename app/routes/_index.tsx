@@ -1,6 +1,8 @@
-import type { V2_MetaFunction } from "@remix-run/node";
-import Hotjar from "@hotjar/browser";
+import { json, type V2_MetaFunction } from "@remix-run/node";
 
+import { useEffect } from "react";
+import { Link, useLoaderData, useLocation } from "@remix-run/react";
+import * as gtag from "~/utils/gtag.client";
 export const meta: V2_MetaFunction = () => {
   return [
     { title: "New Remix App" },
@@ -8,11 +10,19 @@ export const meta: V2_MetaFunction = () => {
   ];
 };
 
-export default function Index() {
-  const siteId = 3607907;
-  const hotjarVersion = 6;
+export const loader = async () => {
+  return json({ gaTrackingId: "G-99ENRGTMW4" });
+};
 
-  Hotjar.init(siteId, hotjarVersion);
+export default function Index() {
+  const location = useLocation();
+  const { gaTrackingId } = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    if (gaTrackingId?.length) {
+      gtag.pageview(location.pathname, gaTrackingId);
+    }
+  }, [location, gaTrackingId]);
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
@@ -27,18 +37,10 @@ export default function Index() {
           </a>
         </li>
         <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
+          <Link to="posts"> First Route</Link>
         </li>
         <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
+          <Link to="admin"> Second Route</Link>
         </li>
       </ul>
     </div>
