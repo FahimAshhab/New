@@ -26,7 +26,10 @@ export default function App() {
   const { gaTrackingId } = useLoaderData<typeof loader>();
   const siteId = 3607907;
   const hotjarVersion = 6;
-  Hotjar.init(siteId, hotjarVersion);
+
+  useEffect(() => {
+    Hotjar.init(siteId, hotjarVersion);
+  }, []);
 
   useEffect(() => {
     if (gaTrackingId?.length) {
