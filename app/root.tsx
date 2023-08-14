@@ -27,9 +27,7 @@ export default function App() {
   const siteId = 3607907;
   const hotjarVersion = 6;
 
-  useEffect(() => {
-    Hotjar.init(siteId, hotjarVersion);
-  }, []);
+  Hotjar.init(siteId, hotjarVersion);
 
   useEffect(() => {
     if (gaTrackingId?.length) {
